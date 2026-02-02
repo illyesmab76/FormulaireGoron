@@ -12,9 +12,8 @@ const formatDateInput = (value) => {
 
  
   if (day.length === 2 && Number(day) > 31) day = "31";
-
- 
   if (month.length === 2 && Number(month) > 12) month = "12";
+  if (year.length === 4 &&Number(year) < 2026) year = "2026";
 
   if (v.length >= 5) return `${day}/${month}/${year}`;
   if (v.length >= 3) return `${day}/${month}`;
