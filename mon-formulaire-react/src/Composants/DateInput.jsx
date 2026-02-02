@@ -6,27 +6,22 @@ const formatDateInput = (value) => {
 
   if (v.length > 8) v = v.slice(0, 8);
 
-  if (v.length >= 5) return `${v.slice(0, 2)}/${v.slice(2, 4)}/${v.slice(4)}`;
-  if (v.length >= 3) return `${v.slice(0, 2)}/${v.slice(2)}`;
-  return v;
+  let day = v.slice(0, 2);
+  let month = v.slice(2, 4);
+  let year = v.slice(4, 8);
+
+ 
+  if (day.length === 2 && Number(day) > 31) day = "31";
+
+ 
+  if (month.length === 2 && Number(month) > 12) month = "12";
+
+  if (v.length >= 5) return `${day}/${month}/${year}`;
+  if (v.length >= 3) return `${day}/${month}`;
+  return day;
 };
 
-const isValidDateFR = (date) => {
-  if (!/^\d{2}\/\d{2}\/\d{4}$/.test(date)) return false;
-
-  const [d, m, y] = date.split("/").map(Number);
-  const testDate = new Date(y, m - 1, d);
-
-  return (
-    testDate.getFullYear() === y &&
-    testDate.getMonth() === m - 1 &&
-    testDate.getDate() === d
-  );
-};
-
-function DateInput({ label, name, value, onChange, required = false }) {
-  const [touched, setTouched] = useState(false);
-
+function DateInput({ label, name, value, onChange, required }) {
   const handleChange = (e) => {
     const formatted = formatDateInput(e.target.value);
 
@@ -38,18 +33,17 @@ function DateInput({ label, name, value, onChange, required = false }) {
     });
   };
 
-  const isError = touched && value && !isValidDateFR(value);
-
   return (
     <InputMui
       label={label}
       name={name}
       value={value}
       onChange={handleChange}
-      onBlur={() => setTouched(true)}
-      inputProps={{ maxLength: 10 }}
-      error={isError}
-      helperText={isError ? "Format attendu : JJ/MM/AAAA" : ""}
+      inputProps={{
+        maxLength: 10,
+        inputMode: "numeric",
+        pattern: "\\d{2}/\\d{2}/\\d{4}",
+      }}
       required={required}
       fullWidth
     />

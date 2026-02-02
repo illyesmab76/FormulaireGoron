@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Box } from "@mui/material";
 import InputMui from "../Composants/InputMui";
-import ButtonMui from "../Composants/ButtonMui";
 import Typo from "../Composants/Typo";
 import DividerMui from "../Composants/DividerMui";
 import FormRow from "../Composants/FormRow";
@@ -10,6 +9,9 @@ import Engagement from "../Composants/Engagement";
 import SignatureBlock from "../Composants/SignatureBlock"
 import DateInput from "../Composants/DateInput";
 import useFormValidation from "../Composants/useFormValidation";
+import SubmitButtonWithTooltip from "../Composants/SubmitButtonWithTooltip";
+
+
 
 function FormulaireInformatique() {
   const [form, setForm] = useState({
@@ -60,6 +62,7 @@ function FormulaireInformatique() {
     alert("Veuillez remplir tous les champs obligatoires.");
     return;
   }
+  alert("Le formulaire a bien été envoyé !");
     console.log(form);
   };
 
@@ -85,7 +88,6 @@ function FormulaireInformatique() {
 
         <DividerMui variant="strong" />
 
-        {/* INFOS PERSONNELLES */}
         <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
           <InputMui label="Nom" name="nom" value={form.nom} onChange={handleChange} fullWidth  />
           <InputMui label="Prénom" name="prenom" value={form.prenom} onChange={handleChange} fullWidth />
@@ -188,10 +190,14 @@ function FormulaireInformatique() {
         <SignatureBlock form={form} handleChange={handleChange} onSaveSignature={handleSaveSignature} onSaveNomSignature={handleSaveNomSignature}/>
 
           <Box sx={{ maxWidth: 900, mx: "auto", mt: 3 }}>
-            <ButtonMui type="submit" disabled={!isValid}>
+            <SubmitButtonWithTooltip
+              disabled={!isValid}
+              tooltip="Tous les champs doivent être remplis correctement pour envoyer le formulaire"
+            >
               Envoyer
-            </ButtonMui>
-          </Box>
+            </SubmitButtonWithTooltip>
+            </Box>
+
 
           <DividerMui variant="strong" sx={{ mt: 3,}} />
          
