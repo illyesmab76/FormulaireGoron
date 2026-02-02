@@ -4,7 +4,11 @@ import Typo from "./Typo";
 function Engagement({ title, text }) {
   return (
     <Box sx={{ maxWidth: 900, mx: "auto", mb: 4 }}>
-      <Typo sx={{ textAlign: "left", mb: 1 }}>
+      <Typo
+        variant="body1"           // 🔥 taille maîtrisée
+        fontWeight="bold"
+        sx={{ textAlign: "left", mb: 1 }}
+      >
         {title}
       </Typo>
 

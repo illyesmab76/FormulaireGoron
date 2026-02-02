@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import TypoLabel from "./TypoLabel";
+import Typo from "./Typo";
 
 function Soussigne({ label, children }) {
   return (
@@ -11,12 +11,21 @@ function Soussigne({ label, children }) {
         mb: 3,
         display: "flex",
         flexDirection: "column",
-        gap: 1,
       }}
     >
-      <TypoLabel sx={{ textAlign: "left", mt: 0 }}>
+      <Typo
+        variant="body1"          
+        fontWeight={500}
+        sx={{
+          textAlign: "left",
+          m: 0,                  
+          p: 0,
+          lineHeight: 1,
+          transform: "translateY(6px)", 
+        }}
+      >
         {label}
-      </TypoLabel>
+      </Typo>
 
       {children}
     </Box>

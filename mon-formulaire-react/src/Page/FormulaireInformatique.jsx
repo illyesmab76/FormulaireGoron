@@ -7,6 +7,10 @@ import DividerMui from "../Composants/DividerMui";
 import FormRow from "../Composants/FormRow";
 import Soussigne from "../Composants/Soussigne";
 import Engagement from "../Composants/Engagement";
+import SignatureBlock from "../Composants/SignatureBlock"
+import DateInput from "../Composants/DateInput";
+
+
 
 function FormulaireInformatique() {
   const [form, setForm] = useState({
@@ -27,6 +31,10 @@ function FormulaireInformatique() {
     MDPEBP: "",
 
     Monsieur: "",
+
+    DateSignature:"",
+    NomSignature:"",
+    signatureImage:"",
   });
 
   const handleChange = (e) => {
@@ -38,6 +46,23 @@ function FormulaireInformatique() {
     e.preventDefault();
     console.log(form);
   };
+
+  const handleSaveSignature = (image) => {
+  setForm((prev) => ({ ...prev, signatureImage: image }));
+};
+
+const handleSaveNomSignature = (image) => {
+  setForm((prev) => ({ ...prev, NomSignature: image }));
+};
+
+const signaturesOK = form.signatureImage && form.NomSignature;
+
+const isValidDateFR = (date) => /^\d{2}\/\d{2}\/\d{4}$/.test(date);
+
+
+
+
+
 
   return (
     <Box sx={{ minHeight: "100vh", p: 4 }}>
@@ -53,10 +78,10 @@ function FormulaireInformatique() {
         <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
           <InputMui label="Nom" name="nom" value={form.nom} onChange={handleChange} fullWidth />
           <InputMui label="Prénom" name="prenom" value={form.prenom} onChange={handleChange} fullWidth />
-          <InputMui label="Date" name="date" value={form.date} onChange={handleChange} fullWidth />
+          <DateInput label="Date (JJ/MM/AAAA)" name="date" value={form.date} onChange={handleChange} required/>
         </Box>
 
-        <DividerMui />
+        <DividerMui variant="strong" />
 
         <FormRow
           label="Adresse mail"
@@ -81,9 +106,9 @@ function FormulaireInformatique() {
         <FormRow
           label="Login TSE ASSI"
           input1={
-            <InputMui label="Identifiant" name="IdTSE" value={form.IdGoogleAgenda} onChange={handleChange} fullWidth/>}
+            <InputMui label="Identifiant" name="IdTSE" value={form.IdGoogleTSE} onChange={handleChange} fullWidth/>}
           input2={
-            <InputMui label="Mot de passe" name="MDPTSE" value={form.MDPGoogle} onChange={handleChange} fullWidth/>}
+            <InputMui label="Mot de passe" name="MDPTSE" value={form.MDPTSE} onChange={handleChange} fullWidth/>}
         />
 
         <DividerMui />
@@ -91,9 +116,9 @@ function FormulaireInformatique() {
         <FormRow
           label="Compte EBP"
           input1={
-            <InputMui label="Identifiant" name="IdEBP" value={form.IdGoogleAgenda} onChange={handleChange} fullWidth/>}
+            <InputMui label="Identifiant" name="IdEBP" value={form.IdEBP} onChange={handleChange} fullWidth/>}
           input2={
-            <InputMui label="Mot de passe" name="MDPEBP" value={form.MDPGoogle} onChange={handleChange} fullWidth/>}
+            <InputMui label="Mot de passe" name="MDPEBP" value={form.MDPEBP} onChange={handleChange} fullWidth/>}
         />
 
         <DividerMui />
@@ -101,32 +126,32 @@ function FormulaireInformatique() {
         <FormRow
           label="Login VPN DISTANT"
           input1={
-            <InputMui label="Identifiant" name="IdVPN" value={form.IdGoogleAgenda} onChange={handleChange} fullWidth/>}
+            <InputMui label="Identifiant" name="IdVPN" value={form.IdVPN} onChange={handleChange} fullWidth/>}
           input2={
-            <InputMui label="Mot de passe" name="MDPVPN" value={form.MDPGoogle} onChange={handleChange} fullWidth/>}
+            <InputMui label="Mot de passe" name="MDPVPN" value={form.MDPVPN} onChange={handleChange} fullWidth/>}
         />
 
         <DividerMui />
 
         <FormRow
           label={
-    <Box sx={{mt: "px 15"}}>
+      <Box sx={{mt: "px 15"}}>
       <Box>PC PORTABLE</Box>
       <Box
         sx={{
-          mt: "px15",        // 🔥 décalage vertical en px
+          mt: "px15",     
           fontSize: "20px",
           color: "#000000",
         }}
-      >
+        >
         (NOM INFORMATIQUE)
-      </Box>
-    </Box>
-  }
+        </Box>
+        </Box>
+            }
           input1={
-            <InputMui label="Identifiant" name="IdPC" value={form.IdGoogleAgenda} onChange={handleChange} fullWidth/>}
+            <InputMui label="Identifiant" name="IdPC" value={form.IdPC} onChange={handleChange} fullWidth/>}
           input2={
-            <InputMui label="Mot de passe" name="MDPPC" value={form.MDPGoogle} onChange={handleChange} fullWidth/>}
+            <InputMui label="Mot de passe" name="MDPPC" value={form.MDPPC} onChange={handleChange} fullWidth/>}
         />
 
         <DividerMui />
@@ -134,9 +159,9 @@ function FormulaireInformatique() {
         <FormRow
           label="MDP BIOS"
           input1={
-            <InputMui label="Identifiant" name="IdBios" value={form.IdGoogleAgenda} onChange={handleChange} fullWidth/>}
+            <InputMui label="Identifiant" name="IdBios" value={form.IdBios} onChange={handleChange} fullWidth/>}
           input2={
-            <InputMui label="Mot de passe" name="MDPBios" value={form.MDPGoogle} onChange={handleChange} fullWidth/>}
+            <InputMui label="Mot de passe" name="MDPBios" value={form.MDPBios} onChange={handleChange} fullWidth/>}
         />
 
         <DividerMui />
@@ -144,12 +169,12 @@ function FormulaireInformatique() {
         <FormRow
           label="MDP SESSION WINDOWS"
           input1={
-            <InputMui label="Identifiant" name="IdWindows" value={form.IdGoogleAgenda} onChange={handleChange} fullWidth/>}
+            <InputMui label="Identifiant" name="IdWindows" value={form.IdWindows} onChange={handleChange} fullWidth/>}
           input2={
-            <InputMui label="Mot de passe" name="MDPWindows" value={form.MDPGoogle} onChange={handleChange} fullWidth/>}
+            <InputMui label="Mot de passe" name="MDPWindows" value={form.MDPWindows} onChange={handleChange} fullWidth/>}
         />
 
-        <DividerMui />
+        <DividerMui variant="strong" />
 
         <Soussigne label="Je soussigné…">
           <InputMui
@@ -162,15 +187,35 @@ function FormulaireInformatique() {
         </Soussigne>
 
         <Engagement
-          title="M’engage à :"
+          title="m’engage à :"
           text={`M’engage à ne jamais diffuser ses identifiants. Ceux-ci sont personnels.
           A respecter la propriété des informations d’ASSI et de la société GORON conformément au règlement intérieur et à la charte SI.
 
           Je reconnais avoir reçu les consignes d’utilisation.`}
         />
+        {/* SIGNATURE + BOUTON */}
+        
+        <SignatureBlock
+          form={form}
+          handleChange={handleChange}
+          onSaveSignature={handleSaveSignature}
+          onSaveNomSignature={handleSaveNomSignature}
+        />
 
-        <ButtonMui type="submit">Envoyer</ButtonMui>
 
+          <Box sx={{ maxWidth: 900, mx: "auto", mt: 3 }}>
+            <ButtonMui
+              type="submit"
+              disabled={!signaturesOK || !isValidDateFR(form.date)}
+                >
+              Envoyer
+            </ButtonMui>
+          </Box>
+
+
+         
+          <DividerMui variant="strong" sx={{ mt: 3,}} />
+         
       </Box>
     </Box>
   );
