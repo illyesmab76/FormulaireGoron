@@ -30,12 +30,7 @@ function SignatureBlock({
           gap: 2,
         }}
       >
-        <DateInput
-            label="Date (JJ/MM/AAAA)"
-            name="DateSignature"
-            value={form.DateSignature}
-            onChange={handleChange}
-        />
+        <DateInput label="Date (JJ/MM/AAAA)" name="DateSignature" value={form.DateSignature} onChange={handleChange}/>
 
 
         <InputMui
