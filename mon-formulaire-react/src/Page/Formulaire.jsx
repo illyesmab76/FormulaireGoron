@@ -1,3 +1,7 @@
+//Formulaire test à ne pas prendre en compte 
+
+
+
 import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import InputMui from "../Composants/InputMui";
@@ -27,12 +31,12 @@ function Formulaire() {
   };
 
   return (
-    // PAGE PLEIN ÉCRAN AVEC MARGES
+    
     <Box
       sx={{
         minHeight: "100vh",
         width: "100%",
-        p: 4,                 // marges globales
+        p: 4,                 
         boxSizing: "border-box",
       }}
     >
@@ -43,9 +47,9 @@ function Formulaire() {
         sx={{
           width: "100%",
           maxWidth: 1200,
-          mx: "auto",         // 🔥 centré horizontalement
+          mx: "auto",         
           mt: 6,  
-          px: 3,            // 🔥 petite marge en haut
+          px: 3,            
          
         }}
       >
@@ -64,8 +68,8 @@ function Formulaire() {
         <Box
         sx={{
         display: "flex",
-        alignItems: "center", // 🔥 aligne verticalement
-        gap: 2,               // espace entre input et bouton
+        alignItems: "center", 
+        gap: 2,               
         mb: 2,
         }}
         >
@@ -76,7 +80,7 @@ function Formulaire() {
           value={form.nom}
           onChange={handleChange}
           required
-          sx={{ flex: 1 }}      // 🔥 l’input prend l’espace dispo
+          sx={{ flex: 1 }}      
         />
 
         <InputMui
@@ -459,8 +463,8 @@ function Formulaire() {
   <Box
   sx={{
     width: "100%",
-    maxWidth: 900,       // 🔥 même largeur que "Je soussigné"
-    mx: "auto",          // 🔥 centré
+    maxWidth: 900,       
+    mx: "auto",          
     mb: 4,
   }}
 >
