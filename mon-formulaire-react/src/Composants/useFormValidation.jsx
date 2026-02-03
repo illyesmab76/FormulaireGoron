@@ -50,7 +50,8 @@ export default function useFormValidation(form) {
     // ── Informations personnelles ──────────────────────────────────────
     isFilled(form.nom) &&                // ← Le nom est rempli ?
     isFilled(form.prenom) &&             // ← Le prénom est rempli ?
-    isValidDateFR(form.date) &&          // ← La date est au bon format JJ/MM/AAAA ?
+    isValidDateFR(form.date) &&  
+    isFilled(form.role) &&        // ← La date est au bon format JJ/MM/AAAA ?
 
     // ── Identifiants Mail ──────────────────────────────────────────────
     isFilled(form.IdMail) &&             // ← L'ID mail est rempli ?
