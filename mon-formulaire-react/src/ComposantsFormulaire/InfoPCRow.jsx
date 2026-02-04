@@ -1,8 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, Button, Typography, List, ListItem } from "@mui/material";
 import InputMui from "../Composants/InputMui";
 import DividerMui from "../Composants/DividerMui";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
-function InfoPCRow({ nomMachine, marque, numeroSerie, garantie, onChange }) {
+function InfoPCRow({ nomMachine, marque, numeroSerie, garantie, onChange, fichiers = [], onFileChange }) {
   // Style pour garantir le 33.33% identique aux autres lignes
   const columnStyle = { flex: "0 0 calc((100% - 32px) / 3)" };
 
@@ -50,6 +52,48 @@ function InfoPCRow({ nomMachine, marque, numeroSerie, garantie, onChange }) {
             onChange={onChange}
             fullWidth
           />
+        </Box>
+        <Box sx={columnStyle} /> {/* Espace vide pour compléter la ligne 2 */}
+
+        {/* NOUVELLE SECTION : Pièces jointes */}
+        <Box sx={{ ...columnStyle, mt: 2 }}>
+          <Typography variant="body2" sx={{ mb: 1, color: "grey.700", fontWeight: "bold" }}>
+            Documents PC (Bon de livraison, photos...)
+          </Typography>
+          <Button
+            component="label"
+            variant="outlined"
+            startIcon={<CloudUploadIcon />}
+            fullWidth
+            sx={{ 
+              height: "56px", 
+              borderColor: "rgba(0, 0, 0, 0.23)", 
+              color: "grey.800",
+              textTransform: "none"
+            }}
+          >
+            Joindre des fichiers
+            <input
+              type="file"
+              hidden
+              multiple
+              onChange={onFileChange}
+            />
+          </Button>
+
+          {/* Liste des fichiers sélectionnés */}
+          {fichiers && fichiers.length > 0 && (
+            <List dense sx={{ mt: 1 }}>
+              {fichiers.map((file, index) => (
+                <ListItem key={index} sx={{ px: 0, py: 0.5 }}>
+                  <InsertDriveFileIcon sx={{ fontSize: 18, mr: 1, color: "#ee773d" }} />
+                  <Typography variant="caption" noWrap>
+                    {file.name}
+                  </Typography>
+                </ListItem>
+              ))}
+            </List>
+          )}
         </Box>
       </Box>
     </Box>

@@ -10,6 +10,7 @@ import InfoPCRow from "../ComposantsFormulaire/InfoPCRow";
 import RetourButton from "../ComposantsFormulaire/RetourButton";
 import InfoPCButton from "../ComposantsFormulaire/InfoPCButton";
 import RecapButton from "../ComposantsFormulaire/RecapButton";
+import FinalRecapView from "../ComposantsFormulaire/FinalRecapView";
 import { generateStrongPassword, generateTrigramme } from "../utils/generators";
 
 const getTodayFR = () => {
@@ -23,10 +24,13 @@ const getTodayFR = () => {
 function FormulaireIdentifiant() {
   const [isLocked, setIsLocked] = useState(false);
   const [showInfoPC, setShowInfoPC] = useState(false);
+  const [showFinalRecap, setShowFinalRecap] = useState(false);
+
   const [form, setForm] = useState({
     nom: "", prenom: "", date: getTodayFR(), modele: "",
     emailGenere: "", passwordGenere: "", trigrammeGenere: "",
     nomMachine: "", marque: "", numeroSerie: "", garantie: "",
+    fichiers:[]
   });
 
   const { isValid, isValidPC } = ValidationChamps(form);
@@ -48,15 +52,13 @@ function FormulaireIdentifiant() {
     }));
     setIsLocked(true);
   };
-
-  const resetGenerations = () => {
-    setIsLocked(false);
-    setShowInfoPC(false);
-    setForm(prev => ({ 
-      ...prev, emailGenere: "", passwordGenere: "", trigrammeGenere: "",
-      nomMachine: "", marque: "", numeroSerie: "", garantie: "" 
-    }));
-  };
+  const handleFileChange = (e) => {
+  const newFiles = Array.from(e.target.files);
+  setForm(prev => ({
+    ...prev,
+    fichiers: [...prev.fichiers, ...newFiles]
+  }));
+};
 
   return (
     <Box sx={{ minHeight: "100vh", p: 4 }}>
@@ -66,60 +68,59 @@ function FormulaireIdentifiant() {
         </Typo>
         <DividerMui variant="strong" sx={{ mb: 2 }} />
 
-        <Box sx={{ maxWidth: "100%", overflow: "hidden" }}>
-          <IdentityRow form={form} onChange={handleFormChange} disabled={isLocked} />
+        {showFinalRecap ? (
+          <FinalRecapView form={form} onBack={() => setShowFinalRecap(false)} />
+        ) : (
+          <Box sx={{ maxWidth: "100%", overflow: "hidden" }}>
+            <IdentityRow form={form} onChange={handleFormChange} disabled={isLocked} />
 
-          {!isLocked ? (
-            <>
-              <ModelValidationRow
-                value={form.modele}
-                onChange={handleFormChange}
-                onValidate={handleValidate}
-                disabled={!isValid}
-              />
-              <DividerMui variant="strong" sx={{ mt: 4 }} /> 
-            </>
-          ) : (
-            <>
-              {!showInfoPC ? (
-                <>
-                  <DividerMui variant="light" sx={{ mt: 4, mb: 3 }} />
-                  
-                  <GeneratedEmailRow 
-                    email={form.emailGenere} 
-                    password={form.passwordGenere} 
-                    trigramme={form.trigrammeGenere}
-                    onChange={handleFormChange}
-                  />
-
-                  <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
-
-                  <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
-                    <RetourButton onRetour={resetGenerations} />
-                    <InfoPCButton onInfoPC={() => setShowInfoPC(true)} />
-                  </Box>
-                </>
-              ) : (
-                <>
-                  <Box sx={{ mt: 3 }}>
-                    <InfoPCRow
-                      nomMachine={form.nomMachine} marque={form.marque}
-                      numeroSerie={form.numeroSerie} garantie={form.garantie}
+            {!isLocked ? (
+              <>
+                <ModelValidationRow
+                  value={form.modele}
+                  onChange={handleFormChange}
+                  onValidate={handleValidate}
+                  disabled={!isValid}
+                />
+                <DividerMui variant="strong" sx={{ mt: 4 }} /> 
+              </>
+            ) : (
+              <>
+                {!showInfoPC ? (
+                  <>
+                    <DividerMui variant="light" sx={{ mt: 4, mb: 3 }} />
+                    <GeneratedEmailRow 
+                      email={form.emailGenere} 
+                      password={form.passwordGenere} 
+                      trigramme={form.trigrammeGenere}
                       onChange={handleFormChange}
                     />
-                  </Box>
-                  
-                  <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
-                  
-                  <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
-                    <RetourButton onRetour={() => setShowInfoPC(false)} />
-                    <RecapButton onRecap={() => console.log(form)} disabled={!isValidPC} />
-                  </Box>
-                </>
-              )}
-            </>
-          )}
-        </Box>
+                    <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
+                    <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
+                      <RetourButton onRetour={() => setIsLocked(false)} />
+                      <InfoPCButton onInfoPC={() => setShowInfoPC(true)} />
+                    </Box>
+                  </>
+                ) : (
+                  <>
+                    <Box sx={{ mt: 3 }}>
+                      <InfoPCRow
+                        nomMachine={form.nomMachine} marque={form.marque}
+                        numeroSerie={form.numeroSerie} garantie={form.garantie}
+                        onChange={handleFormChange}
+                      />
+                    </Box>
+                    <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
+                    <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
+                      <RetourButton onRetour={() => setShowInfoPC(false)} />
+                      <RecapButton onRecap={() => setShowFinalRecap(true)} disabled={!isValidPC} />
+                    </Box>
+                  </>
+                )}
+              </>
+            )}
+          </Box>
+        )}
       </Box>
     </Box>
   );
