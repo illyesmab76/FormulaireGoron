@@ -29,15 +29,15 @@ function IdentityRow({ form, onChange, disabled }) {
         />
       </Box>
 
-      {/* DATE - 33.33% (Reste modifiable) */}
+      {/* DATE - 33.33% - Maintenant liée au verrouillage (disabled) */}
       <Box sx={{ width: "33.33%" }}>
         <DateTodayInput
           label="Date d'entrée"
           name="date"
           value={form.date}
           onChange={onChange}
+          disabled={disabled} 
           fullWidth
-          // On ne passe pas "disabled" ici pour qu'elle reste libre
         />
       </Box>
     </Box>
