@@ -9,6 +9,7 @@ import GeneratedEmailRow from "../ComposantsFormulaire/GeneratedEmailRow";
 import InfoPCRow from "../ComposantsFormulaire/InfoPCRow";
 import RetourButton from "../ComposantsFormulaire/RetourButton";
 import InfoPCButton from "../ComposantsFormulaire/InfoPCButton";
+import RecapButton from "../ComposantsFormulaire/RecapButton";
 import { generateStrongPassword, generateTrigramme } from "../utils/generators";
 
 const getTodayFR = () => {
@@ -25,10 +26,8 @@ function FormulaireIdentifiant() {
     nomMachine: "", marque: "", numeroSerie: "", garantie: "",
   });
 
-  // Utilisation simple de la validation
-  const { isValid } = ValidationChamps(form);
+  const { isValid, isValidPC } = ValidationChamps(form);
 
-  // Fonction de modification unique pour tout le formulaire
   const handleFormChange = useCallback((e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -47,10 +46,24 @@ function FormulaireIdentifiant() {
     setIsLocked(true);
   };
 
+  const handleRecap = () => {
+    console.log("Données finales :", form);
+    alert("Génération du récapitulatif...");
+  };
+
   const resetGenerations = () => {
     setIsLocked(false);
     setShowInfoPC(false);
-    setForm(prev => ({ ...prev, emailGenere: "", passwordGenere: "", trigrammeGenere: "" }));
+    setForm(prev => ({ 
+      ...prev, 
+      emailGenere: "", 
+      passwordGenere: "", 
+      trigrammeGenere: "",
+      nomMachine: "", 
+      marque: "", 
+      numeroSerie: "", 
+      garantie: "" 
+    }));
   };
 
   return (
@@ -61,18 +74,25 @@ function FormulaireIdentifiant() {
         </Typo>
         <DividerMui variant="strong" />
 
+        {/* Ligne Identité */}
         <IdentityRow form={form} onChange={handleFormChange} disabled={isLocked} />
 
         {!isLocked ? (
-          <ModelValidationRow
-            value={form.modele}
-            onChange={handleFormChange}
-            onValidate={handleValidate}
-            disabled={!isValid}
-          />
+          /* ÉTAPE 1 : Validation Modèle */
+          <>
+           
+            <ModelValidationRow
+              value={form.modele}
+              onChange={handleFormChange}
+              onValidate={handleValidate}
+              disabled={!isValid}
+            />
+           <DividerMui variant="strong" sx={{ mt: 3 }} /> 
+          </>
         ) : (
           <>
             {!showInfoPC ? (
+              /* ÉTAPE 2 : Email Généré */
               <>
                 <GeneratedEmailRow 
                   email={form.emailGenere} 
@@ -81,12 +101,13 @@ function FormulaireIdentifiant() {
                   onChange={handleFormChange}
                 />
                 <DividerMui variant="strong" sx={{ mt: 3 }} />
-                <Box sx={{ display: "flex", gap: 2, mt: 3 }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
                   <RetourButton onRetour={resetGenerations} />
                   <InfoPCButton onInfoPC={() => setShowInfoPC(true)} />
                 </Box>
               </>
             ) : (
+              /* ÉTAPE 3 : Info PC */
               <>
                 <InfoPCRow
                   nomMachine={form.nomMachine}
@@ -96,8 +117,12 @@ function FormulaireIdentifiant() {
                   onChange={handleFormChange}
                 />
                 <DividerMui variant="strong" sx={{ mt: 3 }} />
-                <Box sx={{ mt: 3 }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
                   <RetourButton onRetour={() => setShowInfoPC(false)} />
+                  <RecapButton 
+                    onRecap={handleRecap} 
+                    disabled={!isValidPC} 
+                  />
                 </Box>
               </>
             )}
