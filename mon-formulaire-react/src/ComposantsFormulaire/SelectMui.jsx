@@ -15,6 +15,7 @@ function SelectMui({
   options = [
     { label: "Modèle technicien", value: "technicien" },
     { label: "Modèle direction", value: "direction" },
+    { label: "Modèle admin", value: "admin" },
   ],
 }) {
   return (
