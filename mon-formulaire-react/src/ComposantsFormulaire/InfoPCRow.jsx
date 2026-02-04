@@ -14,7 +14,7 @@ function InfoPCRow({ nomMachine, marque, numeroSerie, garantie, onChange }) {
         {/* Ligne 1 : Nom machine et Marque */}
         <Box sx={columnStyle}>
           <InputMui
-            label="Nom de machine"
+            label="Nom de la machine"
             name="nomMachine"
             value={nomMachine}
             onChange={onChange}

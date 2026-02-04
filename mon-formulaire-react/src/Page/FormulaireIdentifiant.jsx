@@ -83,7 +83,7 @@ function FormulaireIdentifiant() {
             <>
               {!showInfoPC ? (
                 <>
-                  <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
+                  <DividerMui variant="light" sx={{ mt: 4, mb: 3 }} />
                   
                   <GeneratedEmailRow 
                     email={form.emailGenere} 
@@ -101,13 +101,13 @@ function FormulaireIdentifiant() {
                 </>
               ) : (
                 <>
-                  <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
-                  
-                  <InfoPCRow
-                    nomMachine={form.nomMachine} marque={form.marque}
-                    numeroSerie={form.numeroSerie} garantie={form.garantie}
-                    onChange={handleFormChange}
-                  />
+                  <Box sx={{ mt: 3 }}>
+                    <InfoPCRow
+                      nomMachine={form.nomMachine} marque={form.marque}
+                      numeroSerie={form.numeroSerie} garantie={form.garantie}
+                      onChange={handleFormChange}
+                    />
+                  </Box>
                   
                   <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
                   
