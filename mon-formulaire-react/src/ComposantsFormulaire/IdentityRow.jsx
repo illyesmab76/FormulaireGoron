@@ -1,43 +1,44 @@
 import { Box } from "@mui/material";
 import InputMui from "../Composants/InputMui";
-import DateTodayInput from "./DateTodayInput";
+import DatePickerMui from "./DatePickerMui";
 
 function IdentityRow({ form, onChange, disabled }) {
   return (
-    <Box sx={{ display: "flex", gap: 2, mb: 2, mt: 2 }}>
-      {/* NOM - 33.33% */}
-      <Box sx={{ width: "33.33%" }}>
+    <Box 
+      sx={{ 
+        display: "flex", 
+        gap: 2, 
+        mt: 2,
+        width: "100%",
+        alignItems: "flex-start",
+        boxSizing: "border-box"
+      }}
+    >
+      <Box sx={{ flex: "0 0 calc(33.33% - 11px)", maxWidth: "calc(33.33% - 11px)" }}>
         <InputMui
           label="Nom"
           name="nom"
           value={form.nom}
           onChange={onChange}
           disabled={disabled}
-          fullWidth
         />
       </Box>
-
-      {/* PRÉNOM - 33.33% */}
-      <Box sx={{ width: "33.33%" }}>
+      <Box sx={{ flex: "0 0 calc(33.33% - 11px)", maxWidth: "calc(33.33% - 11px)" }}>
         <InputMui
           label="Prénom"
           name="prenom"
           value={form.prenom}
           onChange={onChange}
           disabled={disabled}
-          fullWidth
         />
       </Box>
-
-      {/* DATE - 33.33% - Maintenant liée au verrouillage (disabled) */}
-      <Box sx={{ width: "33.33%" }}>
-        <DateTodayInput
-          label="Date d'entrée"
+      <Box sx={{ flex: "0 0 calc(33.34% - 11px)", maxWidth: "calc(33.34% - 11px)" }}>
+        <DatePickerMui
+          label="Date d'arrivée"
           name="date"
           value={form.date}
           onChange={onChange}
-          disabled={disabled} 
-          fullWidth
+          disabled={disabled}
         />
       </Box>
     </Box>

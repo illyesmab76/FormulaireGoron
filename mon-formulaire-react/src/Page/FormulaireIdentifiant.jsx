@@ -14,7 +14,10 @@ import { generateStrongPassword, generateTrigramme } from "../utils/generators";
 
 const getTodayFR = () => {
   const today = new Date();
-  return `${String(today.getDate()).padStart(2, "0")}/${String(today.getMonth() + 1).padStart(2, "0")}/${today.getFullYear()}`;
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+  return `${day}/${month}/${year}`;
 };
 
 function FormulaireIdentifiant() {
@@ -35,34 +38,23 @@ function FormulaireIdentifiant() {
 
   const handleValidate = () => {
     if (!isValid) return;
-    const email = `${form.prenom.trim().toLowerCase()[0] || ""}.${form.nom.trim().toLowerCase().replace(/\s+/g, "")}@goron-systemes.fr`;
-    
+    const cleanNom = form.nom.trim().toLowerCase().replace(/\s+/g, "");
+    const cleanPrenom = form.prenom.trim().toLowerCase();
     setForm((prev) => ({
       ...prev,
-      emailGenere: email,
+      emailGenere: `${cleanPrenom[0] || ""}.${cleanNom}@goron-systemes.fr`,
       passwordGenere: generateStrongPassword(),
       trigrammeGenere: generateTrigramme(prev.prenom, prev.nom),
     }));
     setIsLocked(true);
   };
 
-  const handleRecap = () => {
-    console.log("Données finales :", form);
-    alert("Génération du récapitulatif...");
-  };
-
   const resetGenerations = () => {
     setIsLocked(false);
     setShowInfoPC(false);
     setForm(prev => ({ 
-      ...prev, 
-      emailGenere: "", 
-      passwordGenere: "", 
-      trigrammeGenere: "",
-      nomMachine: "", 
-      marque: "", 
-      numeroSerie: "", 
-      garantie: "" 
+      ...prev, emailGenere: "", passwordGenere: "", trigrammeGenere: "",
+      nomMachine: "", marque: "", numeroSerie: "", garantie: "" 
     }));
   };
 
@@ -72,62 +64,62 @@ function FormulaireIdentifiant() {
         <Typo variant="h3" color="#ee773d" fontWeight="bold" mb={3}>
           Identifiants informatique
         </Typo>
-        <DividerMui variant="strong" />
+        <DividerMui variant="strong" sx={{ mb: 2 }} />
 
-        {/* Ligne Identité */}
-        <IdentityRow form={form} onChange={handleFormChange} disabled={isLocked} />
+        <Box sx={{ maxWidth: "100%", overflow: "hidden" }}>
+          <IdentityRow form={form} onChange={handleFormChange} disabled={isLocked} />
 
-        {!isLocked ? (
-          /* ÉTAPE 1 : Validation Modèle */
-          <>
-           
-            <ModelValidationRow
-              value={form.modele}
-              onChange={handleFormChange}
-              onValidate={handleValidate}
-              disabled={!isValid}
-            />
-           <DividerMui variant="strong" sx={{ mt: 3 }} /> 
-          </>
-        ) : (
-          <>
-            {!showInfoPC ? (
-              /* ÉTAPE 2 : Email Généré */
-              <>
-                <GeneratedEmailRow 
-                  email={form.emailGenere} 
-                  password={form.passwordGenere} 
-                  trigramme={form.trigrammeGenere}
-                  onChange={handleFormChange}
-                />
-                <DividerMui variant="strong" sx={{ mt: 3 }} />
-                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
-                  <RetourButton onRetour={resetGenerations} />
-                  <InfoPCButton onInfoPC={() => setShowInfoPC(true)} />
-                </Box>
-              </>
-            ) : (
-              /* ÉTAPE 3 : Info PC */
-              <>
-                <InfoPCRow
-                  nomMachine={form.nomMachine}
-                  marque={form.marque}
-                  numeroSerie={form.numeroSerie}
-                  garantie={form.garantie}
-                  onChange={handleFormChange}
-                />
-                <DividerMui variant="strong" sx={{ mt: 3 }} />
-                <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
-                  <RetourButton onRetour={() => setShowInfoPC(false)} />
-                  <RecapButton 
-                    onRecap={handleRecap} 
-                    disabled={!isValidPC} 
+          {!isLocked ? (
+            <>
+              <ModelValidationRow
+                value={form.modele}
+                onChange={handleFormChange}
+                onValidate={handleValidate}
+                disabled={!isValid}
+              />
+              <DividerMui variant="strong" sx={{ mt: 4 }} /> 
+            </>
+          ) : (
+            <>
+              {!showInfoPC ? (
+                <>
+                  <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
+                  
+                  <GeneratedEmailRow 
+                    email={form.emailGenere} 
+                    password={form.passwordGenere} 
+                    trigramme={form.trigrammeGenere}
+                    onChange={handleFormChange}
                   />
-                </Box>
-              </>
-            )}
-          </>
-        )}
+
+                  <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
+
+                  <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
+                    <RetourButton onRetour={resetGenerations} />
+                    <InfoPCButton onInfoPC={() => setShowInfoPC(true)} />
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
+                  
+                  <InfoPCRow
+                    nomMachine={form.nomMachine} marque={form.marque}
+                    numeroSerie={form.numeroSerie} garantie={form.garantie}
+                    onChange={handleFormChange}
+                  />
+                  
+                  <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
+                  
+                  <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
+                    <RetourButton onRetour={() => setShowInfoPC(false)} />
+                    <RecapButton onRecap={() => console.log(form)} disabled={!isValidPC} />
+                  </Box>
+                </>
+              )}
+            </>
+          )}
+        </Box>
       </Box>
     </Box>
   );

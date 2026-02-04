@@ -4,40 +4,49 @@ import ButtonMui from "../Composants/ButtonMui";
 
 function ModelValidationRow({ value, onChange, onValidate, disabled }) {
   return (
-    <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
-      <Box sx={{ flex: "0 0 calc((100% - 32px) / 3)" }}>
-        <SelectMui
-          label="Modèle"
-          name="modele"
-          value={value}
-          onChange={onChange}
-          required
-          options={[
-            { label: "Modèle technicien", value: "technicien" },
-            { label: "Modèle direction", value: "direction" },
-          ]}
-        />
-      </Box>
-
-      <Box sx={{ flex: "0 0 calc((100% - 32px) / 3)" }}>
-        <ButtonMui
-          onClick={() => {
-            console.log("🔵 BOUTON CLIQUÉ");
-            onValidate();
-          }}
-          disabled={disabled}
-          sx={{
-            backgroundColor: "#ee773d",
-            "&:hover": { backgroundColor: "#d96532" },
-            width: "50%",
-            height: 55,
-            textTransform: "uppercase",
-            fontWeight: "bold",
-            whiteSpace: "nowrap",
-          }}
-        >
-          Valider
-        </ButtonMui>
+    <Box sx={{ mt: 3 }}>
+      <Box 
+        sx={{ 
+          display: "flex", 
+          gap: 2, 
+          width: "100%", 
+          alignItems: "flex-start",
+          boxSizing: "border-box"
+        }}
+      >
+        <Box sx={{ flex: "0 0 calc(33.33% - 11px)", maxWidth: "calc(33.33% - 11px)" }}>
+          <SelectMui
+            label="Modèle"
+            name="modele"
+            value={value}
+            onChange={onChange}
+            options={[
+              { value: "direction", label: "Modèle direction" },
+              { value: "standard", label: "Modèle standard" },
+              { value: "technique", label: "Modèle technique" }
+            ]}
+          />
+        </Box>
+        
+        <Box sx={{ flex: "0 0 calc(16.665% - 5.5px)", maxWidth: "calc(16.665% - 5.5px)" }}>
+          <ButtonMui
+            onClick={onValidate}
+            disabled={disabled}
+            variant="contained"
+            fullWidth
+            sx={{ 
+              height: "56px",
+              backgroundColor: "#ee773d",
+              "&:hover": {
+                backgroundColor: "#d66835"
+              }
+            }}
+          >
+            VALIDER
+          </ButtonMui>
+        </Box>
+        
+        <Box sx={{ flex: "0 0 calc(50% - 16.5px)", maxWidth: "calc(50% - 16.5px)" }} />
       </Box>
     </Box>
   );

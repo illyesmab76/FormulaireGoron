@@ -1,10 +1,17 @@
 export const generateStrongPassword = () => {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
-  let password = "";
-  for (let i = 0; i < 16; i++) {
-    password += chars.charAt(Math.floor(Math.random() * chars.length));
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let passwordArray = [];
+
+  // 11 caractères aléatoires
+  for (let i = 0; i < 11; i++) {
+    passwordArray.push(chars.charAt(Math.floor(Math.random() * chars.length)));
   }
-  return password;
+
+  // On insère le @ à un index aléatoire entre 0 et 11
+  const randomIndex = Math.floor(Math.random() * 12);
+  passwordArray.splice(randomIndex, 0, "@");
+
+  return passwordArray.join("");
 };
 
 /**
