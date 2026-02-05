@@ -51,7 +51,7 @@ function FinalRecapView({ form, onBack }) {
       </Typo>
 
       {/* SECTION 1 : IDENTIFIANTS */}
-      <Typography variant="subtitle1" sx={{ color: "#ee773d", fontWeight: "bold", mb: 2 }}>1. Identifiants</Typography>
+      <Typography variant="subtitle1" sx={{ color: "#ee773d", fontWeight: "bold", mb: 2 }}>1. Identifiants et MDP</Typography>
       <Grid container spacing={4}>
         <Grid item xs={6}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>

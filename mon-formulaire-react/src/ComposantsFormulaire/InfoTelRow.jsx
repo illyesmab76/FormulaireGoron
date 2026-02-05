@@ -1,5 +1,6 @@
 import { Box, Button, Typography, List, ListItem } from "@mui/material";
 import InputMui from "../Composants/InputMui";
+import DatePickerMui from "./DatePickerMui";
 import DividerMui from "../Composants/DividerMui";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
@@ -12,7 +13,6 @@ function InfoTelRow({ modeleTel, marqueTel, imei, garantieTel, onChange, fichier
       <DividerMui sx={{ my: 4 }} />
       
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-        {/* Ligne 1 : Marque et Modèle */}
         <Box sx={columnStyle}>
           <InputMui
             label="Marque du téléphone"
@@ -33,7 +33,6 @@ function InfoTelRow({ modeleTel, marqueTel, imei, garantieTel, onChange, fichier
         </Box>
         <Box sx={columnStyle} />
 
-        {/* Ligne 2 : IMEI et Garantie */}
         <Box sx={columnStyle}>
           <InputMui
             label="Numéro IMEI / Série"
@@ -44,17 +43,15 @@ function InfoTelRow({ modeleTel, marqueTel, imei, garantieTel, onChange, fichier
           />
         </Box>
         <Box sx={columnStyle}>
-          <InputMui
+          <DatePickerMui
             label="Garantie"
             name="garantieTel"
             value={garantieTel}
             onChange={onChange}
-            fullWidth
           />
         </Box>
         <Box sx={columnStyle} />
 
-        {/* Section Pièces jointes */}
         <Box sx={{ ...columnStyle, mt: 2 }}>
           <Typography variant="body2" sx={{ mb: 1, color: "grey.700", fontWeight: "bold" }}>
             Documents du Téléphone 

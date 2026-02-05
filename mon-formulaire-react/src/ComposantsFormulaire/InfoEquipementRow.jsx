@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Button, Typography, Paper, IconButton, Grid } from "@mui/material";
 import InputMui from "../Composants/InputMui";
+import DatePickerMui from "./DatePickerMui";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -31,7 +32,6 @@ function InfoEquipementRow({ equipements, onAdd, onDelete }) {
       </Typography>
       
       <Grid container spacing={2}>
-        {/* Ligne 1 : Nom et Modèle */}
         <Grid item xs={6}>
           <InputMui label="Nom de l'équipement" name="nom" fullWidth value={local.nom} onChange={handleChange} />
         </Grid>
@@ -39,14 +39,13 @@ function InfoEquipementRow({ equipements, onAdd, onDelete }) {
           <InputMui label="Modèle de l'équipement" name="modele" fullWidth value={local.modele} onChange={handleChange} />
         </Grid>
 
-        {/* Ligne 2 : Numéro de série et (Garantie + PJ) */}
         <Grid item xs={6}>
           <InputMui label="Numéro de série" name="sn" fullWidth value={local.sn} onChange={handleChange} />
         </Grid>
         <Grid item xs={6}>
           <Box sx={{ display: "flex", gap: 1 }}>
             <Box sx={{ flexGrow: 1 }}>
-              <InputMui label="Garantie" name="garantie" fullWidth value={local.garantie} onChange={handleChange} />
+              <DatePickerMui label="Garantie" name="garantie" value={local.garantie} onChange={handleChange} />
             </Box>
             <Button
               component="label"
@@ -64,7 +63,6 @@ function InfoEquipementRow({ equipements, onAdd, onDelete }) {
           </Box>
         </Grid>
 
-        {/* Ligne 3 : Bouton Ajouter sur toute la largeur */}
         <Grid item xs={12}>
           <Button
             variant="contained"
@@ -84,7 +82,6 @@ function InfoEquipementRow({ equipements, onAdd, onDelete }) {
         </Grid>
       </Grid>
 
-      {/* Résumé des équipements ajoutés */}
       <Box sx={{ mt: 3 }}>
         {equipements.map((item, index) => (
           <Paper 

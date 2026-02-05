@@ -21,9 +21,10 @@ function ModelValidationRow({ value, onChange, onValidate, disabled }) {
             value={value}
             onChange={onChange}
             options={[
+              { value: "technicien", label: "Modèle technicien" },
               { value: "direction", label: "Modèle direction" },
-              { value: "admin", label: "Modèle admin" },
-              { value: "technicien", label: "Modèle technicien" }
+              { value: "admin", label: "Modèle admin" }
+              
             ]}
           />
         </Box>

@@ -1,11 +1,11 @@
 import { Box, Button, Typography, List, ListItem } from "@mui/material";
 import InputMui from "../Composants/InputMui";
+import DatePickerMui from "./DatePickerMui";
 import DividerMui from "../Composants/DividerMui";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 function InfoPCRow({ nomMachine, marque, numeroSerie, garantie, onChange, fichiers = [], onFileChange }) {
-  // Style pour garantir le 33.33% identique aux autres lignes
   const columnStyle = { flex: "0 0 calc((100% - 32px) / 3)" };
 
   return (
@@ -13,7 +13,6 @@ function InfoPCRow({ nomMachine, marque, numeroSerie, garantie, onChange, fichie
       <DividerMui sx={{ my: 4 }} />
       
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-        {/* Ligne 1 : Nom machine et Marque */}
         <Box sx={columnStyle}>
           <InputMui
             label="Nom de la machine"
@@ -32,9 +31,8 @@ function InfoPCRow({ nomMachine, marque, numeroSerie, garantie, onChange, fichie
             fullWidth
           />
         </Box>
-        <Box sx={columnStyle} /> {/* Espace vide pour compléter la ligne 1 */}
+        <Box sx={columnStyle} />
 
-        {/* Ligne 2 : Numéro de série et Garantie */}
         <Box sx={columnStyle}>
           <InputMui
             label="Numéro de série"
@@ -45,17 +43,15 @@ function InfoPCRow({ nomMachine, marque, numeroSerie, garantie, onChange, fichie
           />
         </Box>
         <Box sx={columnStyle}>
-          <InputMui
+          <DatePickerMui
             label="Garantie"
             name="garantie"
             value={garantie}
             onChange={onChange}
-            fullWidth
           />
         </Box>
-        <Box sx={columnStyle} /> {/* Espace vide pour compléter la ligne 2 */}
+        <Box sx={columnStyle} />
 
-        {/* NOUVELLE SECTION : Pièces jointes */}
         <Box sx={{ ...columnStyle, mt: 2 }}>
           <Typography variant="body2" sx={{ mb: 1, color: "grey.700", fontWeight: "bold" }}>
             Documents du PC 
@@ -81,7 +77,6 @@ function InfoPCRow({ nomMachine, marque, numeroSerie, garantie, onChange, fichie
             />
           </Button>
 
-          {/* Liste des fichiers sélectionnés */}
           {fichiers && fichiers.length > 0 && (
             <List dense sx={{ mt: 1 }}>
               {fichiers.map((file, index) => (

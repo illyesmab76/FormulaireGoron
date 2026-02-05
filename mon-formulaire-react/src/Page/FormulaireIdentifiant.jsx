@@ -14,8 +14,6 @@ import FinalRecapView from "../ComposantsFormulaire/FinalRecapView";
 import { generateStrongPassword, generateTrigramme } from "../utils/generators";
 import InfoTelButton from "../ComposantsFormulaire/InfoTelButton";
 import InfoTelRow from "../ComposantsFormulaire/InfoTelRow";
-
-// NOUVEAUX IMPORTS
 import InfoEquipButton from "../ComposantsFormulaire/InfoEquipButton";
 import InfoEquipementRow from "../ComposantsFormulaire/InfoEquipementRow";
 
@@ -31,15 +29,15 @@ function FormulaireIdentifiant() {
   const [isLocked, setIsLocked] = useState(false);
   const [showInfoPC, setShowInfoPC] = useState(false);
   const [showInfoTel, setShowInfoTel] = useState(false);
-  const [showInfoEquip, setShowInfoEquip] = useState(false); // État pour afficher les équipements
+  const [showInfoEquip, setShowInfoEquip] = useState(false);
   const [showFinalRecap, setShowFinalRecap] = useState(false);
 
   const [form, setForm] = useState({
     nom: "", prenom: "", date: getTodayFR(), modele: "",
     emailGenere: "", passwordGenere: "", trigrammeGenere: "",
     nomMachine: "", marque: "", numeroSerie: "", garantie: "",
-    marqueTel: "", modeleTel: "", imei: "",
-    equipements: [], // Liste pour stocker les multi-équipements
+    marqueTel: "", modeleTel: "", imei: "", garantieTel: "", fichiersTel: [],
+    equipements: [],
     fichiers: []
   });
 
@@ -50,7 +48,6 @@ function FormulaireIdentifiant() {
     setForm((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  // Fonction pour ajouter un équipement à la liste
   const handleAddEquipement = (newEquip) => {
     setForm(prev => ({
       ...prev,
@@ -58,7 +55,6 @@ function FormulaireIdentifiant() {
     }));
   };
 
-  // Fonction pour supprimer un équipement de la liste
   const handleDeleteEquipement = (index) => {
     setForm(prev => ({
       ...prev,
@@ -105,7 +101,6 @@ function FormulaireIdentifiant() {
               </>
             ) : (
               <>
-                {/* ETAPE 1 : GENERATION EMAIL */}
                 {!showInfoPC && !showInfoTel && !showInfoEquip && (
                   <>
                     <DividerMui variant="light" sx={{ mt: 4, mb: 3 }} />
@@ -123,14 +118,19 @@ function FormulaireIdentifiant() {
                   </>
                 )}
 
-                {/* ETAPE 2 : INFOS PC */}
                 {showInfoPC && !showInfoTel && !showInfoEquip && (
                   <>
                     <Box sx={{ mt: 3 }}>
                       <InfoPCRow
-                        nomMachine={form.nomMachine} marque={form.marque}
-                        numeroSerie={form.numeroSerie} garantie={form.garantie}
+                        nomMachine={form.nomMachine} 
+                        marque={form.marque}
+                        numeroSerie={form.numeroSerie} 
+                        garantie={form.garantie}
                         onChange={handleFormChange}
+                        fichiers={form.fichiers}
+                        onFileChange={(e) => {
+                          setForm(prev => ({ ...prev, fichiers: Array.from(e.target.files) }));
+                        }}
                       />
                     </Box>
                     <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
@@ -144,7 +144,6 @@ function FormulaireIdentifiant() {
                   </>
                 )}
 
-                {/* ETAPE 3 : INFOS TEL (Caché si Equipement ouvert) */}
                 {showInfoTel && !showInfoEquip && (
                   <>
                     <Box sx={{ mt: 3 }}>
@@ -152,7 +151,12 @@ function FormulaireIdentifiant() {
                         marqueTel={form.marqueTel}
                         modeleTel={form.modeleTel}
                         imei={form.imei}
+                        garantieTel={form.garantieTel}
                         onChange={handleFormChange}
+                        fichiers={form.fichiersTel}
+                        onFileChange={(e) => {
+                          setForm(prev => ({ ...prev, fichiersTel: Array.from(e.target.files) }));
+                        }}
                       />
                     </Box>
                     <DividerMui variant="strong" sx={{ mt: 4, mb: 3 }} />
@@ -169,7 +173,6 @@ function FormulaireIdentifiant() {
                   </>
                 )}
 
-                {/* ETAPE 4 : ÉQUIPEMENTS SUPPLÉMENTAIRES */}
                 {showInfoEquip && (
                   <>
                     <Box sx={{ mt: 3 }}>
